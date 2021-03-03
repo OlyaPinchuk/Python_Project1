@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from users.views import home, users, create_user
+from users.views import home, users, create_user, do_action
+# from calc.views import
 
 urlpatterns = [
     path('', home),
     path('users', users),
-    path('<int:id>/<str:name>/<int:age>', create_user)
+    # path('<int:id>/<str:name>/<int:age>', create_user),
+    path('<int:int1>/<str:symbol>/<int:int2>', do_action)
 ]

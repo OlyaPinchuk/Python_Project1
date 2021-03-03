@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # myApps
     'users'
+    'calc'
 ]
 
 MIDDLEWARE = [
