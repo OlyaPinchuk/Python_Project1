@@ -11,7 +11,6 @@ names = ['Jack', 'Ann']
 db_path = os.path.join('users', 'db.json')
 
 
-
 def home(request):
     # print(request)
     return render(request, 'users/home.html', {'names': names})
@@ -37,28 +36,19 @@ def users(request):
 
 
 def create_user(request, **kwargs):
-    print(kwargs)
-    with open(db_path, 'w') as file:
-        json.dump(kwargs, file)
-    with open(db_path, 'r') as file:
-        user = User(**json.load(file))
+    with open(db_path, 'r+') as file:
+        user = User(**kwargs)
+        users = json.load(file)
+        users.append(kwargs)
+        file.seek(0)
+        json.dump(users, file)
+        # file.write(json.dumps(users))
+        file.truncate()
+        # file.write(json.dumps(users))
+        # json.dump(kwargs, file)
+    # with open(db_path, 'r') as file:
+    #     user = User(**json.load(file))
     return render(request, 'users/users.html', {'user': user})
 
 
-def do_action(request, **kwargs):
-    int1 = kwargs['int1']
-    symbol = kwargs['symbol']
-    int2 = kwargs['int2']
-    eq = f'{int1} {symbol} {int2}'
-    res = None
 
-    if symbol == '-':
-        res = int1 - int2
-    elif symbol == '+':
-        res = int1 + int2
-    elif symbol == '*':
-        res = int1 * int2
-    elif symbol == 'div':
-        res = int1 / int2
-
-    return render(request, 'users/calculator.html', {'eq': eq, 'res': res})
